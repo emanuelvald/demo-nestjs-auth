@@ -8,7 +8,10 @@ export class UserRepository {
   constructor(@InjectModel('user') private userModel: Model<UserDocument>) {}
 
   async createUser(username: string, hashedPassword: string): Promise<User> {
-    return await this.userModel.create({ username, hashedPassword });
+    return await this.userModel.create({
+      username: username,
+      password: hashedPassword,
+    });
   }
 
   async getAllUsers(): Promise<User[]> {
