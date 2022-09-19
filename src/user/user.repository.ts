@@ -17,4 +17,8 @@ export class UserRepository {
   async getAllUsers(): Promise<User[]> {
     return this.userModel.find().exec();
   }
+
+  async getUser(username: string): Promise<User> {
+    return this.userModel.findOne({ username: username });
+  }
 }

@@ -7,9 +7,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('/signup')
-  createUser(@Body() createUser: UserDocument) {
-    const { username, password } = createUser;
-    return this.userService.createUser(username, password);
+  createUser(@Body() createUserBody: UserDocument) {
+    return this.userService.createUser(createUserBody);
   }
 
   @Get()
