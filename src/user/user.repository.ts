@@ -15,10 +15,23 @@ export class UserRepository {
   }
 
   async getAllUsers(): Promise<User[]> {
-    return this.userModel.find().exec();
+    return await this.userModel.find().exec();
   }
 
   async getUser(username: string): Promise<User> {
     return this.userModel.findOne({ username: username });
+  }
+
+  async updateUser(
+    username: string,
+    userDocument: UserDocument,
+  ): Promise<User> {
+    return this.userModel.findOneAndUpdate(
+      { username: username },
+      { username: userDocument.username, active: userDocument.active },
+      {
+        new: true,
+      },
+    );
   }
 }
