@@ -18,7 +18,7 @@ export class UserService {
     return await this.userRepository.getAllUsers();
   }
 
-  async getUser(username: string): Promise<User> {
+  async getUserByUsername(username: string): Promise<User> {
     return await this.userRepository.getUser(username);
   }
 }
