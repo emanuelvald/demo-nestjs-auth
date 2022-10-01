@@ -1,7 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { User, UserDocument } from './user.schema';
+import { Injectable } from '@nestjs/common';
+import { User } from './user.schema';
 import { UserRepository } from './user.repository';
 import { getHashedPassword } from './user.utils';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -15,8 +17,8 @@ export class UserService {
     return await this.userRepository.getUserByUsername(username);
   }
 
-  async createUser(createUserBody: UserDocument): Promise<User> {
-    const { username, password } = createUserBody;
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
+    const { username, password } = createUserDto;
     const hashedPassword = await getHashedPassword(password);
 
     return await this.userRepository.createUser(username, hashedPassword);
@@ -24,20 +26,8 @@ export class UserService {
 
   async updateUser(
     username: string,
-    userDocument: UserDocument,
+    updateUserDto: UpdateUserDto,
   ): Promise<User> {
-    if (userDocument._id) {
-      throw new BadRequestException(`_id can't be updated`);
-    }
-    /*if (userDocument.username.length < 6) {
-      throw new BadRequestException(
-        'username is shorter than the minimum allowed length (6)',
-      );
-    }
-    if (userDocument.password) {
-      throw new BadRequestException(`Password can't be updated at this point`);
-    }*/
-
-    return await this.userRepository.updateUser(username, userDocument);
+    return await this.userRepository.updateUser(username, updateUserDto);
   }
 }

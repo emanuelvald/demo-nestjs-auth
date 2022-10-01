@@ -2,6 +2,7 @@ import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './user.schema';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -32,14 +33,22 @@ export class UserRepository {
 
   async updateUser(
     username: string,
-    userDocument: UserDocument,
+    updateUserDto: UpdateUserDto,
   ): Promise<User> {
-    return this.userModel.findOneAndUpdate(
-      { username: username },
-      { username: userDocument.username, active: userDocument.active },
-      {
-        new: true,
-      },
-    );
+    return this.userModel
+      .findOneAndUpdate(
+        { username: username },
+        { username: updateUserDto.username, active: updateUserDto.active },
+        {
+          new: true,
+        },
+      )
+      .catch((error) => {
+        throw new BadRequestException({
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: `${error.message}`,
+          error: 'Internal Server Error',
+        });
+      });
   }
 }
