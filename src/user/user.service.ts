@@ -7,19 +7,19 @@ import { getHashedPassword } from './user.utils';
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async createUser(createUserBody: UserDocument): Promise<User> {
-    const { username, password } = createUserBody;
-    const hashedPassword = await getHashedPassword(password);
-
-    return await this.userRepository.createUser(username, hashedPassword);
-  }
-
   async getAllUsers(): Promise<User[]> {
     return await this.userRepository.getAllUsers();
   }
 
   async getUserByUsername(username: string): Promise<User> {
-    return await this.userRepository.getUser(username);
+    return await this.userRepository.getUserByUsername(username);
+  }
+
+  async createUser(createUserBody: UserDocument): Promise<User> {
+    const { username, password } = createUserBody;
+    const hashedPassword = await getHashedPassword(password);
+
+    return await this.userRepository.createUser(username, hashedPassword);
   }
 
   async updateUser(
@@ -29,14 +29,14 @@ export class UserService {
     if (userDocument._id) {
       throw new BadRequestException(`_id can't be updated`);
     }
-    if (userDocument.username.length < 6) {
+    /*if (userDocument.username.length < 6) {
       throw new BadRequestException(
         'username is shorter than the minimum allowed length (6)',
       );
     }
     if (userDocument.password) {
       throw new BadRequestException(`Password can't be updated at this point`);
-    }
+    }*/
 
     return await this.userRepository.updateUser(username, userDocument);
   }
