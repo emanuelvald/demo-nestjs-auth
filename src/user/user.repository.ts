@@ -13,7 +13,13 @@ export class UserRepository {
   }
 
   async getUserByUsername(username: string): Promise<User> {
-    return this.userModel.findOne({ username: username });
+    return this.userModel.findOne({ username: username }).catch((error) => {
+      throw new BadRequestException({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: `${error.message}`,
+        error: 'Internal Server Error',
+      });
+    });
   }
 
   async createUser(username: string, hashedPassword: string): Promise<User> {

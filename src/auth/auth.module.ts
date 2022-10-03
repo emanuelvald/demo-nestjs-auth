@@ -9,14 +9,19 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from '../user/user.schema';
 import { LocalStrategy } from './local.strategy';
 import { UserRepository } from '../user/user.repository';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     UserModule,
     PassportModule,
-    JwtModule.register({
-      secret: 'secretKey',
-      signOptions: { expiresIn: '60s' },
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService, ConfigService) => ({
+        secret: configService.get('jwt.jwt_secret'),
+        signOptions: { expiresIn: configService.get('jwt.jwt_expires') },
+      }),
     }),
     MongooseModule.forFeature([{ name: 'user', schema: UserSchema }]),
   ],
