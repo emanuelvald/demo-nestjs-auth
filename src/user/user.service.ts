@@ -17,8 +17,8 @@ export class UserService {
     return await this.userRepository.getUserByUsername(username);
   }
 
-  async userExists(email: string) {
-    return await this.userRepository.isEmailAvailable(email);
+  async userExists(property: string, value: string): Promise<boolean> {
+    return await this.userRepository.userExists(property, value);
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {

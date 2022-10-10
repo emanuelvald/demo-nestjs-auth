@@ -10,13 +10,13 @@ import {
 } from 'class-validator';
 import { IsUsername } from '../../common/decorators/is-username.decorator';
 import { IsEqualTo } from '../../common/decorators/is-equal-to.decorator';
-import { IsEmailAvailable } from '../../common/decorators/is-email-available.decorator';
+import { IsAvailable } from '../../common/decorators/is-available.decorator';
 
 export class CreateUserDto {
   @IsUsername()
+  @IsAvailable('username')
   username: string;
 
-  @IsEmailAvailable()
   @IsEmail(
     {},
     {
@@ -25,6 +25,7 @@ export class CreateUserDto {
   )
   @IsLowercase()
   @IsNotEmpty()
+  @IsAvailable('email')
   email: string;
 
   @IsEqualTo('email')

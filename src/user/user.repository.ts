@@ -22,9 +22,9 @@ export class UserRepository {
     });
   }
 
-  async isEmailAvailable(email: string): Promise<any> {
-    return await this.userModel
-      .exists({ email: email.toString() })
+  async userExists(property: string, value: string): Promise<boolean> {
+    return this.userModel
+      .exists({ [property]: value.toString() })
       .then((result) => {
         return !result;
       })
