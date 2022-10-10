@@ -17,15 +17,15 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
+  /*@Get()
   getAllUsers() {
     return this.userService.getAllUsers();
-  }
+  }*/
 
-  @Get('/username/:username')
+  /*@Get('/:username')
   getUserByUsername(@Param('username') username: string) {
     return this.userService.getUserByUsername(username);
-  }
+  }*/
 
   @UseGuards(JwtAuthGuard)
   @Get('/profile')
@@ -39,7 +39,7 @@ export class UserController {
     return this.userService.createUser(createUserDto);
   }
 
-  @Patch('/username/:username')
+  @Patch('/:username')
   updateUser(
     @Param('username') username: string,
     @Body() updateUserDto: UpdateUserDto,

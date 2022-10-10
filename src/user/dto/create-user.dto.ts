@@ -10,11 +10,13 @@ import {
 } from 'class-validator';
 import { IsUsername } from '../../common/decorators/is-username.decorator';
 import { IsEqualTo } from '../../common/decorators/is-equal-to.decorator';
+import { IsEmailAvailable } from '../../common/decorators/is-email-available.decorator';
 
 export class CreateUserDto {
   @IsUsername()
   username: string;
 
+  @IsEmailAvailable()
   @IsEmail(
     {},
     {

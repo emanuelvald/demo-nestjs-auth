@@ -6,10 +6,11 @@ const usernamePattern = /^[a-z0-9_.]+$/;
 const usernameMinLength = 6;
 const usernameMaxLength = 15;
 
-export function isUsernameValid(username: string): boolean {
+export function isUsername(username: string): boolean {
   if (!username) {
     return false;
   }
+
   if (!!username && !usernamePattern.test(username)) {
     return false;
   }
@@ -21,6 +22,7 @@ export function isUsernameValid(username: string): boolean {
   if (!!username && username.length > usernameMaxLength) {
     return false;
   }
+
   return true;
 }
 

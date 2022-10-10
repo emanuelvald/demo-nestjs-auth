@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { isUsername } from './user.utils';
+import { isEmail } from 'class-validator';
 
 export type UserDocument = User & Document;
 
@@ -9,13 +11,16 @@ export class User {
     type: String,
     minlength: 6,
     maxlength: 15,
+    validate: [isUsername],
     required: true,
   })
   username: string;
 
   @Prop({
     type: String,
+    validate: [isEmail],
     required: true,
+    unique: true,
   })
   email: string;
 

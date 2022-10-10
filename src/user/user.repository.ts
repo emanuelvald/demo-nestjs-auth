@@ -22,6 +22,21 @@ export class UserRepository {
     });
   }
 
+  async isEmailAvailable(email: string): Promise<any> {
+    return await this.userModel
+      .exists({ email: email.toString() })
+      .then((result) => {
+        return !result;
+      })
+      .catch((error) => {
+        throw new BadRequestException({
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: [`${error.message}`],
+          error: 'Internal Server Error',
+        });
+      });
+  }
+
   async createUser(newUser: User): Promise<User> {
     return await this.userModel
       .create({
@@ -45,11 +60,16 @@ export class UserRepository {
     return this.userModel
       .findOneAndUpdate(
         { username: username },
-        { username: updateUserDto.username, active: updateUserDto.active },
+        {
+          username: updateUserDto.username,
+          email: updateUserDto.email,
+          active: updateUserDto.active,
+        },
         {
           new: true,
         },
       )
+      .select(['username', 'email', 'active'])
       .catch((error) => {
         throw new BadRequestException({
           status: HttpStatus.INTERNAL_SERVER_ERROR,

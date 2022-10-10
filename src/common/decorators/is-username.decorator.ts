@@ -5,7 +5,7 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { isUsernameValid } from '../../user/user.utils';
+import { isUsername } from '../../user/user.utils';
 
 export function IsUsername(validationOptions?: ValidationOptions) {
   return (object: any, propertyName: string) => {
@@ -23,7 +23,7 @@ export function IsUsername(validationOptions?: ValidationOptions) {
 @ValidatorConstraint({ name: 'isUsername' })
 export class IsUsernameConstraint implements ValidatorConstraintInterface {
   validate(value: any, args: ValidationArguments) {
-    return isUsernameValid(value);
+    return isUsername(value);
   }
 
   defaultMessage(args: ValidationArguments) {

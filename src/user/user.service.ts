@@ -17,6 +17,10 @@ export class UserService {
     return await this.userRepository.getUserByUsername(username);
   }
 
+  async userExists(email: string) {
+    return await this.userRepository.isEmailAvailable(email);
+  }
+
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const { username, email, password } = createUserDto;
     const hashedPassword = await getHashedPassword(password);
