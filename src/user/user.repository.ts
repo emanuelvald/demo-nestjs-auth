@@ -22,16 +22,17 @@ export class UserRepository {
     });
   }
 
-  async createUser(username: string, hashedPassword: string): Promise<User> {
+  async createUser(newUser: User): Promise<User> {
     return await this.userModel
       .create({
-        username: username,
-        password: hashedPassword,
+        username: newUser.username,
+        email: newUser.email,
+        password: newUser.password,
       })
       .catch((error) => {
         throw new BadRequestException({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: `${error.message}`,
+          message: [`${error.message}`],
           error: 'Internal Server Error',
         });
       });

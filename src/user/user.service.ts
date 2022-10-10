@@ -18,10 +18,15 @@ export class UserService {
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const { username, password } = createUserDto;
+    const { username, email, password } = createUserDto;
     const hashedPassword = await getHashedPassword(password);
 
-    return await this.userRepository.createUser(username, hashedPassword);
+    const newUser = new User();
+    newUser.username = username;
+    newUser.email = email;
+    newUser.password = hashedPassword;
+
+    return await this.userRepository.createUser(newUser);
   }
 
   async updateUser(

@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -12,9 +22,16 @@ export class UserController {
     return this.userService.getAllUsers();
   }
 
-  @Get('/:username')
+  @Get('/username/:username')
   getUserByUsername(@Param('username') username: string) {
     return this.userService.getUserByUsername(username);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/profile')
+  getUserProfile(@Request() req) {
+    console.log('req: ', req.user);
+    return req.user;
   }
 
   @Post('/signup')
@@ -22,7 +39,7 @@ export class UserController {
     return this.userService.createUser(createUserDto);
   }
 
-  @Patch('/:username')
+  @Patch('/username/:username')
   updateUser(
     @Param('username') username: string,
     @Body() updateUserDto: UpdateUserDto,
