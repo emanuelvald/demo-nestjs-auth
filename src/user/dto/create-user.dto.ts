@@ -11,6 +11,7 @@ import {
 import { IsUsername } from '../../common/decorators/is-username.decorator';
 import { IsEqualTo } from '../../common/decorators/is-equal-to.decorator';
 import { IsAvailable } from '../../common/decorators/is-available.decorator';
+import { passwordMaxLength, passwordMinLength } from '../user.constants';
 
 export class CreateUserDto {
   @IsUsername()
@@ -32,11 +33,11 @@ export class CreateUserDto {
   confirmEmail: string;
 
   @IsString()
-  @MinLength(8, {
-    message: 'Password is shorter than the minimum allowed length (8)',
+  @MinLength(passwordMinLength, {
+    message: `Password is shorter than the minimum allowed length ${passwordMinLength}`,
   })
-  @MaxLength(30, {
-    message: 'Password is higher than the maximum allowed length (30)',
+  @MaxLength(passwordMaxLength, {
+    message: `Password is higher than the maximum allowed length ${passwordMaxLength}`,
   })
   @IsNotEmpty()
   password: string;

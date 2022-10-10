@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { isUsername } from './user.utils';
 import { isEmail } from 'class-validator';
+import { usernameMaxLength, usernameMinLength } from './user.constants';
 
 export type UserDocument = User & Document;
 
@@ -9,8 +10,8 @@ export type UserDocument = User & Document;
 export class User {
   @Prop({
     type: String,
-    minlength: 6,
-    maxlength: 15,
+    minlength: usernameMinLength,
+    maxlength: usernameMaxLength,
     validate: [isUsername],
     required: true,
   })

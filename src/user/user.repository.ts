@@ -16,7 +16,7 @@ export class UserRepository {
     return this.userModel.findOne({ username: username }).catch((error) => {
       throw new BadRequestException({
         status: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: `${error.message}`,
+        message: [`${error.message}`],
         error: 'Internal Server Error',
       });
     });
@@ -73,7 +73,7 @@ export class UserRepository {
       .catch((error) => {
         throw new BadRequestException({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: `${error.message}`,
+          message: [`${error.message}`],
           error: 'Internal Server Error',
         });
       });

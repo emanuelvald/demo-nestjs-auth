@@ -1,10 +1,11 @@
 import { hash } from 'bcrypt';
 import { BadRequestException, HttpStatus } from '@nestjs/common';
-
-const saltOrRounds = 10;
-const usernamePattern = /^[a-z0-9_.]+$/;
-const usernameMinLength = 6;
-const usernameMaxLength = 15;
+import {
+  saltOrRounds,
+  usernameMaxLength,
+  usernameMinLength,
+  usernamePattern,
+} from './user.constants';
 
 export function isUsername(username: string): boolean {
   if (!username) {
