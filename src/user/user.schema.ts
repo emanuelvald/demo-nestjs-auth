@@ -14,6 +14,7 @@ export class User {
     maxlength: usernameMaxLength,
     validate: [isUsername],
     required: true,
+    unique: true,
   })
   username: string;
 

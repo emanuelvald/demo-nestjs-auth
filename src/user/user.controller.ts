@@ -17,20 +17,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  /*@Get()
-  getAllUsers() {
-    return this.userService.getAllUsers();
-  }*/
-
-  /*@Get('/:username')
-  getUserByUsername(@Param('username') username: string) {
-    return this.userService.getUserByUsername(username);
-  }*/
-
   @UseGuards(JwtAuthGuard)
   @Get('/profile')
   getUserProfile(@Request() req) {
-    console.log('req: ', req.user);
     return req.user;
   }
 

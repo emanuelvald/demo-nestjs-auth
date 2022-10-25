@@ -8,10 +8,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserRepository {
   constructor(@InjectModel('user') private userModel: Model<UserDocument>) {}
 
-  async getAllUsers(): Promise<User[]> {
-    return await this.userModel.find().exec();
-  }
-
   async getUserByUsername(username: string): Promise<User> {
     return this.userModel.findOne({ username: username }).catch((error) => {
       throw new BadRequestException({
@@ -37,20 +33,14 @@ export class UserRepository {
       });
   }
 
-  async createUser(newUser: User): Promise<User> {
-    return await this.userModel
-      .create({
-        username: newUser.username,
-        email: newUser.email,
-        password: newUser.password,
-      })
-      .catch((error) => {
-        throw new BadRequestException({
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: [`${error.message}`],
-          error: 'Internal Server Error',
-        });
+  async createUser(user: User): Promise<User> {
+    return await this.userModel.create(user).catch((error) => {
+      throw new BadRequestException({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: [`${error.message}`],
+        error: 'Internal Server Error',
       });
+    });
   }
 
   async updateUser(

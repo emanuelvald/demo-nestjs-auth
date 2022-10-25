@@ -9,10 +9,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async getAllUsers(): Promise<User[]> {
-    return await this.userRepository.getAllUsers();
-  }
-
   async getUserByUsername(username: string): Promise<User> {
     return await this.userRepository.getUserByUsername(username);
   }
