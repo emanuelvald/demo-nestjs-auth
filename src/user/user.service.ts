@@ -21,7 +21,7 @@ export class UserService {
     const { username, email, password } = createUserDto;
     const hashedPassword = await getHashedPassword(password);
 
-    const newUser = new User();
+    const newUser: User = new User();
     newUser.username = username;
     newUser.email = email;
     newUser.password = hashedPassword;

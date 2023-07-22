@@ -9,10 +9,14 @@ import {
   MinLength,
 } from 'class-validator';
 import { IsUsername } from '../../common/decorators/is-username.decorator';
+import { IsEqualTo } from '../../common/decorators/is-equal-to.decorator';
 import { IsAvailable } from '../../common/decorators/is-available.decorator';
-import { passwordMaxLength, passwordMinLength } from '../user.constants';
+import {
+  passwordMaxLength,
+  passwordMinLength,
+} from '../../user/user.constants';
 
-export class CreateUserDto {
+export class SignUpDto {
   @IsUsername()
   @IsAvailable('username')
   username: string;
@@ -28,6 +32,9 @@ export class CreateUserDto {
   @IsAvailable('email')
   email: string;
 
+  @IsEqualTo('email')
+  confirmEmail: string;
+
   @IsString()
   @MinLength(passwordMinLength, {
     message: `Password is shorter than the minimum allowed length ${passwordMinLength}`,
@@ -37,6 +44,9 @@ export class CreateUserDto {
   })
   @IsNotEmpty()
   password: string;
+
+  @IsEqualTo('password')
+  confirmPassword: string;
 
   @IsBoolean()
   @IsOptional()

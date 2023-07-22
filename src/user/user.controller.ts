@@ -21,6 +21,7 @@ export class UserController {
     return req.user;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch('/:username')
   updateUser(
     @Param('username') username: string,

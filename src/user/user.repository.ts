@@ -11,7 +11,7 @@ export class UserRepository {
   async getUserByUsername(username: string): Promise<User> {
     return this.userModel.findOne({ username: username }).catch((error) => {
       throw new BadRequestException({
-        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         message: [`${error.message}`],
         error: 'Internal Server Error',
       });
@@ -26,21 +26,29 @@ export class UserRepository {
       })
       .catch((error) => {
         throw new BadRequestException({
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
           message: [`${error.message}`],
           error: 'Internal Server Error',
         });
       });
   }
 
-  async createUser(user: User): Promise<User> {
-    return await this.userModel.create(user).catch((error) => {
-      throw new BadRequestException({
-        status: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: [`${error.message}`],
-        error: 'Internal Server Error',
+  async createUser(user: User): Promise<any> {
+    return await this.userModel
+      .create(user)
+      .then(() => {
+        return {
+          statusCode: HttpStatus.CREATED,
+          message: 'User created successfully',
+        };
+      })
+      .catch((error) => {
+        throw new BadRequestException({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: [`${error.message}`],
+          error: 'Internal Server Error',
+        });
       });
-    });
   }
 
   async updateUser(
@@ -62,7 +70,7 @@ export class UserRepository {
       .select(['username', 'email', 'active'])
       .catch((error) => {
         throw new BadRequestException({
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
           message: [`${error.message}`],
           error: 'Internal Server Error',
         });
