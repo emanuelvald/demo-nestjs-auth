@@ -26,11 +26,11 @@ export function IsUsername(validationOptions?: ValidationOptions) {
 
 @ValidatorConstraint({ name: 'isUsername' })
 export class IsUsernameConstraint implements ValidatorConstraintInterface {
-  validate(value: any, args: ValidationArguments) {
+  validate(value: any): boolean {
     return isUsername(value);
   }
 
-  defaultMessage(args: ValidationArguments) {
+  defaultMessage(args: ValidationArguments): string {
     return `${args.property} is required. Must be between ${usernameMinLength} and ${usernameMaxLength} characters long and only have lowercase Letters (a-z), numbers (0-9), dots (.) or underscores (_).`;
   }
 }

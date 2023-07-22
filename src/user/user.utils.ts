@@ -20,11 +20,7 @@ export function isUsername(username: string): boolean {
     return false;
   }
 
-  if (!!username && username.length > usernameMaxLength) {
-    return false;
-  }
-
-  return true;
+  return !(!!username && username.length > usernameMaxLength);
 }
 
 export async function getHashedPassword(password: string): Promise<string> {
